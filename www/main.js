@@ -13,7 +13,7 @@
         return $.Deferred(function (defer) {
             $.ajax({
                 type: "GET",
-                url: 'http://94.251.114.123:8081/cars',
+                url: 'http://carsxml.herokuapp.com/cars',
                 dataType: "xml",
                 complete: function (res) {
                     defer.resolve(res.responseText);
