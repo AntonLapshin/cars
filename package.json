@@ -1,0 +1,23 @@
+{
+  "name": "cars",
+  "version": "0.0.1",
+  "description": "This is a conversion service",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AntonLapshin/cars"
+  },
+  "keywords": [
+    "xml",
+    "conversion",
+    "cars"
+  ],
+  "author": "Anton Lapshin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AntonLapshin/cars/issues"
+  }
+}
