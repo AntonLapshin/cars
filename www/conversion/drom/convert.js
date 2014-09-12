@@ -123,7 +123,7 @@ define([
         return $.Deferred(function(defer){
             $.ajax({
                 type: "POST",
-                url: 'http://94.251.114.123:8081/dromsave',
+                url: 'http://carsxml.herokuapp.com/dromsave',
                 processData: false,
                 dataType: 'text/xml',
                 data: xmlString,
@@ -141,7 +141,7 @@ define([
         return $.Deferred(function (defer) {
             $.ajax({
                 type: "GET",
-                url: 'http://94.251.114.123:8081/dromref',
+                url: 'http://carsxml.herokuapp.com/dromref',
                 dataType: "xml",
                 complete: function (res) {
                     defer.resolve(res.responseText);

@@ -34,7 +34,7 @@
                     .html(name + ': completed')
                     .after(
                         $('<a>bulls.xml</a>')
-                            .attr('href', 'http://94.251.114.123:8081/conversion/' + name + '/bulls.xml')
+                            .attr('href', 'http://carsxml.herokuapp.com/conversion/' + name + '/bulls.xml')
                     );
 
                 $('#spin').hide();
