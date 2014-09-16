@@ -5,27 +5,15 @@
             jquery: '//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min',
             spin: '//cdnjs.cloudflare.com/ajax/libs/spin.js/2.0.1/spin',
             xslt: 'lib/jquery.xslt',
-            drom: 'conversion/drom/convert'
+            drom: 'conversion/drom/convert',
+            ajax: 'plugins/ajax'
         }
     });
 
-    function getCars() {
-        return $.Deferred(function (defer) {
-            $.ajax({
-                type: "GET",
-                url: 'http://carsxml.herokuapp.com/cars',
-                dataType: "xml",
-                complete: function (res) {
-                    defer.resolve(res.responseText);
-                }
-            });
-        });
-    }
-
-    function execute(name, conversion){
+    function execute(name, conversion, ajax){
         $('#message').html(name + ': processing...');
 
-        getCars()
+        ajax.getXML('/cars')
             .then(function(){
                 return conversion();
             })
@@ -34,7 +22,8 @@
                     .html(name + ': completed')
                     .after(
                         $('<a>bulls.xml</a>')
-                            .attr('href', 'http://carsxml.herokuapp.com/conversion/' + name + '/bulls.xml')
+                            .attr('target', '_blank')
+                            .attr('href', ajax.getServerUrl() + '/conversion/' + name + '/bulls.xml')
                     );
 
                 $('#spin').hide();
@@ -46,8 +35,8 @@
     ['drom', 'avito', 'ngs'].forEach(function(name){
         if (url.indexOf(name) === -1) return;
 
-        require(['jquery', name, 'spin'],
-            function ($, convertion, spin) {
+        require(['jquery', name, 'spin', 'ajax'],
+            function ($, convertion, spin, ajax) {
 
                 var opts = {
                     lines: 13, // The number of lines to draw
@@ -70,7 +59,7 @@
                 var target = document.getElementById('spin');
                 var spinner = new spin(opts).spin(target);
 
-                execute(name, convertion);
+                execute(name, convertion, ajax);
             });
     });
 }());

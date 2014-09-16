@@ -1,10 +1,29 @@
 define([
     'xslt',
-], function (xslt) {
+    'ajax'
+], function (xslt, ajax) {
 
     var IMAGE_PREFIX = 'https://creator.zohopublic.com';
 
     var rules = [
+        {
+            name: 'Additional',
+            action: function (value, offer$) {
+                var result = '',
+                    index = 0,
+                    i = 0;
+
+                while(true){
+                    index = value.indexOf('&lt;', i);
+                    if (index === -1) break;
+                    result += value.substring(i, index - 1);
+                    i = index + 4;
+                    index = value.indexOf('&gt;', i);
+                    i = index + 4;
+                }
+                return result;
+            }
+        },
         {
             name: 'idHaulRussiaType',
             action: function (value, offer$) {
@@ -119,35 +138,7 @@ define([
 
     function save(xml) {
         var xmlString = (new XMLSerializer()).serializeToString(xml);
-
-        return $.Deferred(function(defer){
-            $.ajax({
-                type: "POST",
-                url: 'http://carsxml.herokuapp.com/dromsave',
-                processData: false,
-                dataType: 'text/xml',
-                data: xmlString,
-                success: function (response) {
-                    //defer.resolve(response);
-                },
-                error: function (response) {
-                    defer.resolve(response);
-                }
-            });
-        });
-    }
-
-    function getRef() {
-        return $.Deferred(function (defer) {
-            $.ajax({
-                type: "GET",
-                url: 'http://carsxml.herokuapp.com/dromref',
-                dataType: "xml",
-                complete: function (res) {
-                    defer.resolve(res.responseText);
-                }
-            });
-        });
+        return ajax.post('/dromsave', xmlString);
     }
 
     return function () {
@@ -155,7 +146,7 @@ define([
             $('<div></div>')
                 .xslt('cars.xml', 'conversion/drom/stylesheet.xsl')
                 .on('finished', function (e, xml) {
-                    getRef()
+                    ajax.getXML('/dromref')
                         .then(function (xmlRefText) {
                             xml = conversionByRules(xml, $(xmlRefText));
                             xml = conversionPhotos(xml);

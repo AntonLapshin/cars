@@ -36,9 +36,9 @@
                         <xsl:value-of select="column[@name='AutoMileage']/value"/>
                     </Haul>
                     <idHaulRussiaType><xsl:value-of select="column[@name='AutoMileageRF']/value"/></idHaulRussiaType>
-                    <!--<Additional>-->
-                        <!--<xsl:value-of select="column[@name='AutoDescription']/value"/>-->
-                    <!--</Additional>-->
+                    <Additional>
+                        <xsl:value-of select="column[@name='AutoDescription']/value"/>
+                    </Additional>
                     <Photos>
                         <xsl:for-each select="column[starts-with(@name,'AutoAutoFoto')]">
                             <Photo>
